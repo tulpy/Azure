@@ -1,0 +1,3 @@
+resources
+| where type =~ 'Microsoft.Network/networkInterfaces'
+| extend subnet = properties.ipConfigurations[0].properties.subnet | summarize count() by tostring(subnet)
