@@ -1,0 +1,68 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storagePrefix": {
+      "type": "string",
+      "defaultValue": "scgsydnpe",
+      "allowedValues": [
+        "scgsydnpe",
+        "scgsydprd"
+      ]
+    }
+  },
+  "variables": {
+    "copy": [
+      {
+        "name": "storageAccounts",
+        "count": 1,
+        "input": {
+          "name": "[toLower(concat(parameters('storagePrefix'), uniqueString(resourceGroup().id), copyIndex('storageAccounts')))]"
+        }
+      }
+    ],
+    "storage": {
+      "sku": "Standard_LRS",
+      "kind": "StorageV2",
+      "use": "Diagnostics",
+      "httpsOnly": true,
+      "externalIp": "58.7.167.134"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2019-06-01",
+      "name": "[variables('storageAccounts')[copyIndex()].name]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "[variables('storage').sku]"
+      },
+      "tags": {
+        "storageSKU": "[variables('storage').sku]",
+        "storageUse": "[variables('storage').use]"
+      },
+      "kind": "[variables('storage').kind]",
+      "properties": {
+        "supportsHttpsTrafficOnly": "[variables('storage').httpsOnly]",
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "virtualNetworkRules": [],
+          "ipRules": [
+            {
+              "value": "[variables('storage').externalIp]",
+              "action": "Allow"
+            }
+          ],
+          "defaultAction": "Deny"
+        }
+      },
+      "copy": {
+        "name": "storagecopy",
+        "count": "[length(variables('storageAccounts'))]"
+      }
+    }
+  ],
+  "outputs": {
+  }
+}
