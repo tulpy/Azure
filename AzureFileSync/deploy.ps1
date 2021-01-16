@@ -25,10 +25,11 @@ January 16, 2021 1.0
 $TemplateFile = ".\template\azuredeploy.json"
 $Region = "australiaeast"
 $RG = "stt-syd-cor-arg-afs"
+$SubId = "afa561b9-1bcc-4e69-bb33-af606363a7df"
 
 # Connect to Subscription
 Connect-AzAccount
-Select-AzSubscription -SubscriptionId "afa561b9-1bcc-4e69-bb33-af606363a7df"
+Select-AzSubscription -SubscriptionId $SubId
 
 New-AzResourceGroup -Name $RG -Location $Region
 New-AzResourceGroupDeployment -ResourceGroupName $RG -TemplateFile $TemplateFile
