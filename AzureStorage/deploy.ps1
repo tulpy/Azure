@@ -25,6 +25,6 @@ December 24, 2020 1.0
 # Parameters
 $TemplateFile = ".\azuredeploy.json"
 $TemplateParameterFile = ".\parameters\azuredeploy.parameters.json"
-$RG = "scg-npe-arg-network"
+$RG = ""
 
 New-AzResourceGroupDeployment -ResourceGroupName $RG -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile

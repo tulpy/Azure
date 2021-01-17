@@ -112,7 +112,7 @@ Set-AzContext -SubscriptionId $selectedSubscriptionID -ErrorAction Ignore
  Set-AzVMOSDisk -VM $newVM -CreateOption Attach -ManagedDiskId $originalVM.StorageProfile.OsDisk.ManagedDisk.Id -Name $originalVM.StorageProfile.OsDisk.Name -Windows
 
 #Create new NIC for new VM
-    $NewNic = New-AzNetworkInterface -ResourceGroupName $NewVnetResourceGroup `
+    New-AzNetworkInterface -ResourceGroupName $NewVnetResourceGroup `
       -Name "01$NewvmName" `
       -Location "$Location" `
       -SubnetId $backEndSubnet.Id
