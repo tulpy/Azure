@@ -1,0 +1,89 @@
+{
+    "mode": "All",
+    "parameters": {
+        "effectType": {
+            "type": "String",
+            "defaultValue": "deny",
+            "allowedValues": [
+                "audit",
+                "deny",
+                "disabled"
+            ],
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Enable or disable the execution of the policy"
+            }
+        },
+        "sourceAddressPrefix": {
+            "type": "Array",
+            "defaultValue": ["*","Internet"],
+            "metadata": {
+                "displayName": "Source Address Prefix",
+                "description": "Source address prefix to audit/deny, e.g., Any+Internet, Any only, Internet only"
+            }
+        }
+    },
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "anyOf": [
+                        {
+                            "field": "type",
+                            "equals": "Microsoft.Network/networkSecurityGroups"
+                        },
+                        {
+                            "field": "type",
+                            "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+                        }
+                    ]
+                },
+                {
+                    "anyOf": [
+                        {
+                            "allOf": [
+                                {
+                                    "field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+                                    "equals": "Allow"
+                                },
+                                {
+                                    "field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
+                                    "equals": "Inbound"
+                                },
+                                {
+                                    "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
+                                    "in": "[parameters('sourceAddressPrefix')]"
+                                }
+                            ]
+                        },
+                        {
+                            "count": {
+                                "field": "Microsoft.Network/networkSecurityGroups/securityRules[*]",
+                                "where": {
+                                    "allOf": [
+                                        {
+                                            "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].access",
+                                            "equals": "Allow"
+                                        },
+                                        {
+                                            "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].direction",
+                                            "equals": "Inbound"
+                                        },
+                                        {
+                                            "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].sourceAddressPrefix",
+                                            "in": "[parameters('sourceAddressPrefix')]"
+                                        }
+                                    ]
+                                }
+                            },
+                            "greater": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effectType')]"
+        }
+    }
+}
