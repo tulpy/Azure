@@ -4,10 +4,9 @@
   "parameters": {
     "storagePrefix": {
       "type": "string",
-      "defaultValue": "scgsydnpe",
+      "defaultValue": "",
       "allowedValues": [
-        "scgsydnpe",
-        "scgsydprd"
+        ""
       ]
     }
   },
