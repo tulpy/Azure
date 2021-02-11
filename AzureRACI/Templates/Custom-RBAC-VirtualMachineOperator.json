@@ -1,0 +1,25 @@
+{
+    "Name": "Custom - Virtual Machine Operator",
+    "Id": null,
+    "IsCustom": true,
+    "Description": "Custom role to monitor and restart virtual machines",
+    "Actions": [
+        "Microsoft.Storage/*/read",
+        "Microsoft.Network/*/read",
+        "Microsoft.Compute/*/read",
+        "Microsoft.Compute/virtualMachines/start/action",
+        "Microsoft.Compute/virtualMachines/restart/action",
+        "Microsoft.Compute/virtualMachines/deallocate/action",
+        "Microsoft.Authorization/*/read",
+        "Microsoft.ResourceHealth/availabilityStatuses/read",
+        "Microsoft.Resources/subscriptions/resourceGroups/read",
+        "Microsoft.Insights/alertRules/*",
+        "Microsoft.Support/*"
+    ],
+    "NotActions": [],
+    "DataActions": [],
+    "NotDataActions": [],
+    "AssignableScopes": [
+        "/subscriptions/10f5257a-04db-46d9-a233-e4ca5ba19731"
+    ]
+}

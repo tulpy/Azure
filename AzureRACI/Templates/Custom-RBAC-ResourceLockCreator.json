@@ -1,0 +1,15 @@
+{
+    "Name": "Custom - Resource Lock Creator",
+    "Id": null,
+    "IsCustom": true,
+    "Description": "Custom role for creating Resource Locks",
+    "Actions": [
+      "Microsoft.Authorization/locks/write"
+    ],
+    "NotActions": [],
+    "DataActions": [],
+    "NotDataActions": [],
+    "AssignableScopes": [
+      "/subscriptions/10f5257a-04db-46d9-a233-e4ca5ba19731"
+    ]
+  }
