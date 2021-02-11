@@ -1,0 +1,177 @@
+[11-02-2021 13:24:55]  : Info : Importing the Module Az.Accounts with MinimumVersion 1.3.0
+[11-02-2021 13:24:55]  : Info : Importing the Module Az.Network with MinimumVersion 1.1.0
+[11-02-2021 13:24:55]  : Info : Getting the Azure context for the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:24:58]  : Info : Selecting the Azure SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:24:59]  : Info : Getting the vnet from the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:24:59]  : Error : On action Getting the vnet from the SubscriptionName : Access to Azure Active Directory : The current subscription type is not permitted to perform operations on any provider namespace. Please use a different subscription.
+StatusCode: 400
+ReasonPhrase: Bad Request
+ErrorCode: DisallowedOperation
+ErrorMessage: The current subscription type is not permitted to perform operations on any provider namespace. Please use a different subscription.
+OperationID : a84cda47-7e49-48de-a5d9-0b5444e7b8da
+[11-02-2021 13:25:31]  : Info : Importing the Module Az.Accounts with MinimumVersion 1.3.0
+[11-02-2021 13:25:31]  : Info : Importing the Module Az.Network with MinimumVersion 1.1.0
+[11-02-2021 13:25:31]  : Info : Getting the Azure context for the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:25:34]  : Info : Selecting the Azure SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:25:35]  : Info : Getting the vnet from the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:25:36]  : Error : On action Getting the vnet from the SubscriptionName : Access to Azure Active Directory : The current subscription type is not permitted to perform operations on any provider namespace. Please use a different subscription.
+StatusCode: 400
+ReasonPhrase: Bad Request
+ErrorCode: DisallowedOperation
+ErrorMessage: The current subscription type is not permitted to perform operations on any provider namespace. Please use a different subscription.
+OperationID : c0f9c711-90c9-48ed-915c-6c2d32a0e9fd
+[11-02-2021 13:26:56]  : Info : Importing the Module Az.Accounts with MinimumVersion 1.3.0
+[11-02-2021 13:26:56]  : Info : Importing the Module Az.Network with MinimumVersion 1.1.0
+[11-02-2021 13:26:56]  : Info : Getting the Azure context for the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:26:59]  : Info : Selecting the Azure SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:00]  : Info : Getting the vnet from the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:00]  : Error : On action Getting the vnet from the SubscriptionName : Access to Azure Active Directory : The current subscription type is not permitted to perform operations on any provider namespace. Please use a different subscription.
+StatusCode: 400
+ReasonPhrase: Bad Request
+ErrorCode: DisallowedOperation
+ErrorMessage: The current subscription type is not permitted to perform operations on any provider namespace. Please use a different subscription.
+OperationID : 5b70d815-163e-4f18-9d47-6da8308d9205
+[11-02-2021 13:27:00]  : Info : Getting the vnet peering limit on the region :  on the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:00]  : Error : On action Getting the vnet peering limit on the region :  on the SubscriptionName : Access to Azure Active Directory : The property 'Location' cannot be found on this object. Verify that the property exists.
+[11-02-2021 13:27:01]  : Info : Getting the Azure context for the SubscriptionName : Access to Azure Active Directory(Converted to EA)
+[11-02-2021 13:27:04]  : Info : Selecting the Azure SubscriptionName : Access to Azure Active Directory(Converted to EA)
+[11-02-2021 13:27:05]  : Info : Getting the vnet from the SubscriptionName : Access to Azure Active Directory(Converted to EA)
+[11-02-2021 13:27:06]  : Info : Getting the Azure context for the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:09]  : Info : Selecting the Azure SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:10]  : Info : Getting the vnet from the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:10]  : Error : On action Getting the vnet from the SubscriptionName : Access to Azure Active Directory : The current subscription type is not permitted to perform operations on any provider namespace. Please use a different subscription.
+StatusCode: 400
+ReasonPhrase: Bad Request
+ErrorCode: DisallowedOperation
+ErrorMessage: The current subscription type is not permitted to perform operations on any provider namespace. Please use a different subscription.
+OperationID : 8420f0b7-63ae-4cc5-aab0-e18b29cd8c20
+[11-02-2021 13:27:10]  : Info : Getting the vnet peering limit on the region :  on the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:10]  : Error : On action Getting the vnet peering limit on the region :  on the SubscriptionName : Access to Azure Active Directory : The property 'Location' cannot be found on this object. Verify that the property exists.
+[11-02-2021 13:27:11]  : Info : Getting the Azure context for the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:14]  : Info : Selecting the Azure SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:14]  : Info : Getting the vnet from the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:15]  : Error : On action Getting the vnet from the SubscriptionName : Access to Azure Active Directory : The current subscription type is not permitted to perform operations on any provider namespace. Please use a different subscription.
+StatusCode: 400
+ReasonPhrase: Bad Request
+ErrorCode: DisallowedOperation
+ErrorMessage: The current subscription type is not permitted to perform operations on any provider namespace. Please use a different subscription.
+OperationID : d437351a-d7d4-4975-b15a-9e4614ba4ace
+[11-02-2021 13:27:15]  : Info : Getting the vnet peering limit on the region :  on the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:15]  : Error : On action Getting the vnet peering limit on the region :  on the SubscriptionName : Access to Azure Active Directory : The property 'Location' cannot be found on this object. Verify that the property exists.
+[11-02-2021 13:27:15]  : Info : Getting the Azure context for the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:19]  : Info : Selecting the Azure SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:19]  : Info : Getting the vnet from the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:20]  : Error : On action Getting the vnet from the SubscriptionName : Access to Azure Active Directory : The current subscription type is not permitted to perform operations on any provider namespace. Please use a different subscription.
+StatusCode: 400
+ReasonPhrase: Bad Request
+ErrorCode: DisallowedOperation
+ErrorMessage: The current subscription type is not permitted to perform operations on any provider namespace. Please use a different subscription.
+OperationID : 45bacc9a-c140-4215-82e8-a8fa5a44e2bd
+[11-02-2021 13:27:20]  : Info : Getting the vnet peering limit on the region :  on the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:20]  : Error : On action Getting the vnet peering limit on the region :  on the SubscriptionName : Access to Azure Active Directory : The property 'Location' cannot be found on this object. Verify that the property exists.
+[11-02-2021 13:27:20]  : Info : Getting the Azure context for the SubscriptionName : Visual Studio Enterprise
+[11-02-2021 13:27:23]  : Info : Selecting the Azure SubscriptionName : Visual Studio Enterprise
+[11-02-2021 13:27:24]  : Info : Getting the vnet from the SubscriptionName : Visual Studio Enterprise
+[11-02-2021 13:27:26]  : Info : Getting the Azure context for the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:29]  : Info : Selecting the Azure SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:29]  : Info : Getting the vnet from the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:30]  : Error : On action Getting the vnet from the SubscriptionName : Access to Azure Active Directory : The current subscription type is not permitted to perform operations on any provider namespace. Please use a different subscription.
+StatusCode: 400
+ReasonPhrase: Bad Request
+ErrorCode: DisallowedOperation
+ErrorMessage: The current subscription type is not permitted to perform operations on any provider namespace. Please use a different subscription.
+OperationID : 0b9d374c-0718-4c6e-86d0-27af08c825dc
+[11-02-2021 13:27:30]  : Info : Getting the vnet peering limit on the region :  on the SubscriptionName : Access to Azure Active Directory
+[11-02-2021 13:27:30]  : Error : On action Getting the vnet peering limit on the region :  on the SubscriptionName : Access to Azure Active Directory : The property 'Location' cannot be found on this object. Verify that the property exists.
+[11-02-2021 13:27:31]  : Info : Getting the Azure context for the SubscriptionName : SCG-IT-NonProduction
+[11-02-2021 13:27:34]  : Info : Selecting the Azure SubscriptionName : SCG-IT-NonProduction
+[11-02-2021 13:27:35]  : Info : Getting the vnet from the SubscriptionName : SCG-IT-NonProduction
+[11-02-2021 13:27:38]  : Info : Getting the vnet peering limit on the region : australiasoutheast on the SubscriptionName : SCG-IT-NonProduction
+[11-02-2021 13:27:40]  : Info : Getting the vnet peering limit on the region : australiasoutheast on the SubscriptionName : SCG-IT-NonProduction
+[11-02-2021 13:27:41]  : Info : Getting the vnet peering limit on the region : australiasoutheast on the SubscriptionName : SCG-IT-NonProduction
+[11-02-2021 13:27:42]  : Info : Getting the vnet peering limit on the region : australiasoutheast on the SubscriptionName : SCG-IT-NonProduction
+[11-02-2021 13:27:43]  : Info : Getting the vnet peering limit on the region : australiasoutheast on the SubscriptionName : SCG-IT-NonProduction
+[11-02-2021 13:27:45]  : Info : Getting the Azure context for the SubscriptionName : Access to Azure Active Directory(Converted to EA)
+[11-02-2021 13:27:48]  : Info : Selecting the Azure SubscriptionName : Access to Azure Active Directory(Converted to EA)
+[11-02-2021 13:27:48]  : Info : Getting the vnet from the SubscriptionName : Access to Azure Active Directory(Converted to EA)
+[11-02-2021 13:27:49]  : Info : Getting the Azure context for the SubscriptionName : Siby - Visual Studio Enterprise
+[11-02-2021 13:27:53]  : Info : Selecting the Azure SubscriptionName : Siby - Visual Studio Enterprise
+[11-02-2021 13:27:54]  : Info : Getting the vnet from the SubscriptionName : Siby - Visual Studio Enterprise
+[11-02-2021 13:27:55]  : Info : Getting the Azure context for the SubscriptionName : SCG-IT-Production
+[11-02-2021 13:27:58]  : Info : Selecting the Azure SubscriptionName : SCG-IT-Production
+[11-02-2021 13:27:59]  : Info : Getting the vnet from the SubscriptionName : SCG-IT-Production
+[11-02-2021 13:28:01]  : Info : Getting the vnet peering limit on the region : australiasoutheast on the SubscriptionName : SCG-IT-Production
+[11-02-2021 13:28:02]  : Info : Getting the vnet peering limit on the region : australiasoutheast on the SubscriptionName : SCG-IT-Production
+[11-02-2021 13:28:03]  : Info : Getting the vnet peering limit on the region : australiasoutheast on the SubscriptionName : SCG-IT-Production
+[11-02-2021 13:28:05]  : Info : Getting the Azure context for the SubscriptionName : Visual Studio Enterprise
+[11-02-2021 13:28:08]  : Info : Selecting the Azure SubscriptionName : Visual Studio Enterprise
+[11-02-2021 13:28:08]  : Info : Getting the vnet from the SubscriptionName : Visual Studio Enterprise
+[11-02-2021 13:28:09]  : Info : Getting the Azure context for the SubscriptionName : Annelize Visual Studio Enterprise
+[11-02-2021 13:28:13]  : Info : Selecting the Azure SubscriptionName : Annelize Visual Studio Enterprise
+[11-02-2021 13:28:13]  : Info : Getting the vnet from the SubscriptionName : Annelize Visual Studio Enterprise
+[11-02-2021 13:28:15]  : Info : Getting the vnet peering limit on the region : eastus2 on the SubscriptionName : Annelize Visual Studio Enterprise
+[11-02-2021 13:28:17]  : Info : Getting the vnet peering limit on the region : australiaeast on the SubscriptionName : Annelize Visual Studio Enterprise
+[11-02-2021 13:28:18]  : Info : Getting the Azure context for the SubscriptionName : Tom's Visual Studio Professional
+[11-02-2021 13:28:21]  : Info : Selecting the Azure SubscriptionName : Tom's Visual Studio Professional
+[11-02-2021 13:28:22]  : Info : Getting the vnet from the SubscriptionName : Tom's Visual Studio Professional
+[11-02-2021 13:28:23]  : Info : Getting the Azure context for the SubscriptionName : Paul Visual Studio Enterprise
+[11-02-2021 13:28:26]  : Info : Selecting the Azure SubscriptionName : Paul Visual Studio Enterprise
+[11-02-2021 13:28:26]  : Info : Getting the vnet from the SubscriptionName : Paul Visual Studio Enterprise
+[11-02-2021 13:28:28]  : Info : Getting the Azure context for the SubscriptionName : Visual Studio Enterprise Subscription
+[11-02-2021 13:28:31]  : Info : Selecting the Azure SubscriptionName : Visual Studio Enterprise Subscription
+[11-02-2021 13:28:31]  : Info : Getting the vnet from the SubscriptionName : Visual Studio Enterprise Subscription
+[11-02-2021 13:28:33]  : Info : Getting the Azure context for the SubscriptionName : Visual Studio Enterprise Subscription
+[11-02-2021 13:28:36]  : Info : Selecting the Azure SubscriptionName : Visual Studio Enterprise Subscription
+[11-02-2021 13:28:36]  : Info : Getting the vnet from the SubscriptionName : Visual Studio Enterprise Subscription
+[11-02-2021 13:28:37]  : Info : Getting the Azure context for the SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:28:40]  : Info : Selecting the Azure SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:28:41]  : Info : Getting the vnet from the SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:28:42]  : Info : Getting the Azure context for the SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:28:45]  : Info : Selecting the Azure SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:28:46]  : Info : Getting the vnet from the SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:28:47]  : Info : Getting the Azure context for the SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:28:50]  : Info : Selecting the Azure SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:28:51]  : Info : Getting the vnet from the SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:28:52]  : Info : Getting the Azure context for the SubscriptionName : SCG-UAT
+[11-02-2021 13:28:56]  : Info : Selecting the Azure SubscriptionName : SCG-UAT
+[11-02-2021 13:28:57]  : Info : Getting the vnet from the SubscriptionName : SCG-UAT
+[11-02-2021 13:28:58]  : Info : Getting the Azure context for the SubscriptionName : Tom's Visual Studio Enterprise Subscription
+[11-02-2021 13:29:01]  : Info : Selecting the Azure SubscriptionName : Tom's Visual Studio Enterprise Subscription
+[11-02-2021 13:29:02]  : Info : Getting the vnet from the SubscriptionName : Tom's Visual Studio Enterprise Subscription
+[11-02-2021 13:29:03]  : Info : Getting the Azure context for the SubscriptionName : Assinatura do Visual Studio Professional
+[11-02-2021 13:29:07]  : Info : Selecting the Azure SubscriptionName : Assinatura do Visual Studio Professional
+[11-02-2021 13:29:07]  : Info : Getting the vnet from the SubscriptionName : Assinatura do Visual Studio Professional
+[11-02-2021 13:29:08]  : Info : Getting the Azure context for the SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:29:11]  : Info : Selecting the Azure SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:29:12]  : Info : Getting the vnet from the SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:29:13]  : Info : Getting the Azure context for the SubscriptionName : legacy-ToBeDeleted
+[11-02-2021 13:29:17]  : Info : Selecting the Azure SubscriptionName : legacy-ToBeDeleted
+[11-02-2021 13:29:18]  : Info : Getting the vnet from the SubscriptionName : legacy-ToBeDeleted
+[11-02-2021 13:29:19]  : Info : Getting the Azure context for the SubscriptionName : Microsoft Azure Enterprise
+[11-02-2021 13:29:22]  : Info : Selecting the Azure SubscriptionName : Microsoft Azure Enterprise
+[11-02-2021 13:29:22]  : Info : Getting the vnet from the SubscriptionName : Microsoft Azure Enterprise
+[11-02-2021 13:29:24]  : Info : Getting the Azure context for the SubscriptionName : SCG-Platform
+[11-02-2021 13:29:28]  : Info : Selecting the Azure SubscriptionName : SCG-Platform
+[11-02-2021 13:29:28]  : Info : Getting the vnet from the SubscriptionName : SCG-Platform
+[11-02-2021 13:29:30]  : Info : Getting the vnet peering limit on the region : australiaeast on the SubscriptionName : SCG-Platform
+[11-02-2021 13:29:32]  : Info : Getting the Azure context for the SubscriptionName : Microsoft Azure Enterprise
+[11-02-2021 13:29:34]  : Info : Selecting the Azure SubscriptionName : Microsoft Azure Enterprise
+[11-02-2021 13:29:35]  : Info : Getting the vnet from the SubscriptionName : Microsoft Azure Enterprise
+[11-02-2021 13:29:37]  : Info : Getting the Azure context for the SubscriptionName : Microsoft Azure Enterprise
+[11-02-2021 13:29:40]  : Info : Selecting the Azure SubscriptionName : Microsoft Azure Enterprise
+[11-02-2021 13:29:41]  : Info : Getting the vnet from the SubscriptionName : Microsoft Azure Enterprise
+[11-02-2021 13:29:42]  : Info : Getting the Azure context for the SubscriptionName : Microsoft Azure Enterprise
+[11-02-2021 13:29:45]  : Info : Selecting the Azure SubscriptionName : Microsoft Azure Enterprise
+[11-02-2021 13:29:46]  : Info : Getting the vnet from the SubscriptionName : Microsoft Azure Enterprise
+[11-02-2021 13:29:47]  : Info : Getting the Azure context for the SubscriptionName : SCG-NonProduction
+[11-02-2021 13:29:50]  : Info : Selecting the Azure SubscriptionName : SCG-NonProduction
+[11-02-2021 13:29:51]  : Info : Getting the vnet from the SubscriptionName : SCG-NonProduction
+[11-02-2021 13:29:53]  : Info : Getting the vnet peering limit on the region : australiaeast on the SubscriptionName : SCG-NonProduction
+[11-02-2021 13:29:54]  : Info : Getting the Azure context for the SubscriptionName : SCG-Production
+[11-02-2021 13:29:58]  : Info : Selecting the Azure SubscriptionName : SCG-Production
+[11-02-2021 13:29:59]  : Info : Getting the vnet from the SubscriptionName : SCG-Production
+[11-02-2021 13:30:00]  : Info : Getting the vnet peering limit on the region : australiaeast on the SubscriptionName : SCG-Production
+[11-02-2021 13:30:01]  : Info : Getting the Azure context for the SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:30:04]  : Info : Selecting the Azure SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:30:05]  : Info : Getting the vnet from the SubscriptionName : Visual Studio Professional Subscription
+[11-02-2021 13:30:06]  : Info : Exporting the Vnet summary audit result in to the file : C:\vscode\tulpy\Azure\test\logs\11-02-2021-VnetSummary.csv
