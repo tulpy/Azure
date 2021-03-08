@@ -1,0 +1,99 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "locationPrefix": {
+            "type": "string",
+            "allowedValues": [
+                "australiaesouthast",
+                "australiaeast"
+            ],
+            "defaultValue": "australiaeast"
+        },
+        "companyPrefix": {
+            "type": "string",
+            "maxLength": 5
+        },
+        "environmentPrefix": {
+            "type": "string",
+            "allowedValues": [
+                "cor",
+                "prd",
+                "npe"
+            ],
+            "defaultValue": "cor"
+        },
+        "applicationName": {
+            "type": "string"
+        },
+        "applicationOwner": {
+            "type": "string"
+        },
+        "businessCriticality": {
+            "type": "string",
+            "defaultValue": "Tier2",
+            "allowedValues": [
+                "Tier0",
+                "Tier1",
+                "Tier2",
+                "Tier3"
+            ]
+        },
+        "contactEmail": {
+            "type": "string"
+        },
+        "costCenter": {
+            "type": "string"
+        },
+        "dataClassification": {
+            "type": "string",
+            "defaultValue": "Internal",
+            "allowedValues": [
+                "Public",
+                "Internal",
+                "Restricted",
+                "Confidential"
+            ]
+        }
+    },
+    "variables": {
+        "namePrefix": {
+            "companyPrefix": "[toLower(parameters('companyPrefix'))]",
+            "regionPrefix": "[replace(replace(parameters('locationPrefix'),'australiasoutheast','mel'), 'australiaeast', 'syd')]",
+            "environmentPrefix": "[toLower(parameters('environmentPrefix'))]",
+            "applicationPrefix": "[toLower(parameters('applicationName'))]"
+        },
+        "rgName": "[toLower(concat(variables('namePrefix').companyPrefix, '-', variables('namePrefix').regionPrefix, '-', variables('namePrefix').environmentPrefix, '-arg-', variables('namePrefix').applicationPrefix))]",
+        "apiVersions": {
+            "resourceGroups": "2020-06-01",
+             "locks": "2016-09-01"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "[variables('apiVersions').resourceGroups]",
+            "name": "[variables('rgName')]",
+            "location": "[parameters('locationPrefix')]",
+            "tags": {
+                "Application Name": "[parameters('applicationName')]",
+                "Application Owner": "[parameters('applicationOwner')]",
+                "Criticality": "[parameters('businessCriticality')]",
+                "Contact Email": "[parameters('contactEmail')]",
+                "Cost Center": "[parameters('costCenter')]",
+                "Data Classification": "[parameters('dataClassification')]"
+            },
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Authorization/locks",
+            "apiVersion": "[variables('apiVersions').locks]",
+            "name": "ResourceGroup-DontDelete",
+            "properties": {
+                "level": "CanNotDelete",
+                "notes": "Prevent deletion of the resourceGroup"
+            }
+        }
+    ],
+    "outputs": {}
+}

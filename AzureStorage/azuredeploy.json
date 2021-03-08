@@ -24,7 +24,8 @@
       "sku": "Standard_LRS",
       "kind": "StorageV2",
       "use": "Diagnostics",
-      "httpsOnly": true,
+      "supportsHttpsTrafficOnly": true,
+      "minimumTlsVersion": "TLS1_2",
       "externalIp": "58.7.167.134"
     }
   },
@@ -43,7 +44,8 @@
       },
       "kind": "[variables('storage').kind]",
       "properties": {
-        "supportsHttpsTrafficOnly": "[variables('storage').httpsOnly]",
+        "supportsHttpsTrafficOnly": "[variables('storage').supportsHttpsTrafficOnly]",
+        "minimumTlsVersion": "[variables('storage').minimumTlsVersion]",
         "networkAcls": {
           "bypass": "AzureServices",
           "virtualNetworkRules": [],
