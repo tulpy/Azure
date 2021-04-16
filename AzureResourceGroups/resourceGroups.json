@@ -21,7 +21,7 @@
                 "prd",
                 "npe"
             ],
-            "defaultValue": "cor"
+            "defaultValue": "npe"
         },
         "applicationName": {
             "type": "string"

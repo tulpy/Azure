@@ -1,0 +1,119 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualMachines": {
+      "type": "array",
+      "metadata": {
+        "description": "Details of the VM to be created. Maximum of 10 VM's allowed."
+      },
+      "maxLength": 10,
+      "minLength": 1
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Username for the Virtual Machine."
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for the Virtual Machine."
+      }
+    },
+    "vmSize": {
+      "type": "string",
+      "metadata": {
+        "description": "The size of VM sku."
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for all resources."
+      }
+    }
+  },
+  "variables": {
+    "os": {
+      "version": "2019-Datacenter",
+      "offer": "WindowsServer",
+      "publisher": "MicrosoftWindowsServer",
+      "diskType": "Premium_LRS"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2020-06-01",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(parameters('virtualMachines')[copyIndex()].name, '-nic01')]",
+      "location": "[parameters('location')]",
+      "copy": {
+        "name": "nicLoop",
+        "count": "[length(parameters('virtualMachines'))]"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "subnet": {
+                "id": "[concat(resourceId(parameters('virtualMachines')[copyIndex()].virtualNetworkResourceGroup,'Microsoft.Network/virtualNetworks', parameters('virtualMachines')[copyIndex()].virtualNetworkName),'/subnets/', parameters('virtualMachines')[copyIndex()].subNetName)]"
+              },
+              "privateIPAllocationMethod": "Dynamic"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2020-06-01",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[parameters('virtualMachines')[copyIndex()].name]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "nicLoop"
+      ],
+      "copy": {
+        "name": "vmLoop",
+        "count": "[length(parameters('virtualMachines'))]"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('virtualMachines')[copyIndex()].name]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('os').publisher]",
+            "offer": "[variables('os').offer]",
+            "sku": "[variables('os').version]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[concat(parameters('virtualMachines')[copyIndex()].name,'-os')]",
+            "createOption": "FromImage",
+            "managedDisk": {
+              "storageAccountType": "[variables('os').diskType]"
+            }
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(parameters('virtualMachines')[copyIndex()].name, '-nic01'))]"
+            }
+          ]
+        }
+      },
+     "resources": [
+            ]
+    }
+  ]
+}

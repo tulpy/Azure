@@ -1,0 +1,303 @@
+{
+  "kind": "template",
+  "properties": {
+    "displayName": "Azure Virtual Network spoke template - API Management",
+    "description": "Azure Virtual Network spoke template - API Management.",
+    "dependsOn": [],
+    "template": {
+      "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "comPrefix": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Prefix for company identifier",
+            "description": "This string will be used as a prefix to support naming resources"
+          }
+        },
+        "locPrefix": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Prefix for location identifier",
+            "description": "This string will be used as a prefix to support naming resources"
+          }
+        },
+        "envPrefix": {
+          "type": "string",
+          "metadata": {
+            "displayName": "Prefix for environment identifier",
+            "description": "This string will be used as a prefix to support naming resources"
+          }
+        },
+        "hubSubscriptionId": {
+          "type": "string",
+          "defaultValue": "[subscription().subscriptionId]",
+          "metadata": {
+            "displayName": "Hub subscription ID",
+            "description": "Subscription ID where hub is deployed."
+          }
+        },
+        "hubVntName": {
+          "type": "string",
+          "defaultValue": "",
+          "metadata": {
+            "displayName": "Spoke Virtual Network Name",
+            "description": "Spoke Virtual Network Name."
+          }
+        },
+        "hubRgName": {
+          "type": "string",
+          "defaultValue": "",
+          "metadata": {
+            "displayName": "Hub Resource Group Name for vNet",
+            "description": "Hub Resource Group Name for vNet."
+          }
+        },
+        "hubFwIp": {
+          "type": "string",
+          "metadata": {
+            "displayName": "FW Ip",
+            "description": "FW Ip"
+          }
+        },
+        "spokeAddressPrefix": {
+          "type": "string",
+          "defaultValue": "10.1.0.0/16",
+          "metadata": {
+            "displayName": "Spoke Virtual Network CIDR",
+            "description": "Spoke Virtual Network CIDR."
+          }
+        },
+        "subnetAddressPrefix": {
+          "type": "string",
+          "defaultValue": "10.1.0.0/24",
+          "metadata": {
+            "displayName": "Spoke Virtual Network CIDR",
+            "description": "Spoke Virtual Network CIDR."
+          }
+        }
+      },
+      "variables": {
+        "namingPrefix": "[toLower(concat(parameters('comPrefix'), '-', parameters('locPrefix'), '-', parameters('envPrefix')))]",
+        "spokeCidr": "[substring(parameters('spokeAddressPrefix'),0,sub(length(parameters('spokeAddressPrefix')), 3))]",
+        "spokeRgName": "[concat(variables('namingPrefix'), '-arg-network')]",
+        "spokeVntName": "[concat(variables('namingPrefix'), '-vnt-', variables('spokeCidr'))]",
+        "spokeVntResourceId": "[resourceId(parameters('subscriptionId'), variables('spokeRgName'), 'Microsoft.Network/virtualNetworks', variables('spokeVnetName'))]",
+        "spokeUdrName": "[toLower(take(concat(variables('namingPrefix'), '-', parameters('udrPrefix'), '-', guid(parameters('companyPrefix'))), 24))]",
+        "spokeVntToHubVntPeer": "[concat(variables('spokeVntName'), '-to-', parameters('hubVntName'))]",
+        "hubVntToSpokeVntPeer": "[concat(parameters('hubVntName'), '-to-', variables('spokeVntName'))]",
+        "udrRoute": "subnet-to-azureFirewall",
+        "udrId": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', variables('spokeRgName'),'/providers/Microsoft.Network/routeTables/', variables('spokeUdrName'))]",
+        "spokeSubName": "Web",
+        "spokeNsgName": "[toLower(concat(variables('namingPrefix'), '-', parameters('nsgPrefix'), '-', variables('spokeSubName')))]",
+        "nsgId": "[concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', variables('spokeRgName'),'/providers/Microsoft.Network/networkSecurityGroups/', variables('spokeNsgName'))]",
+        "apiVersions": {
+          "deployments": "2020-06-01",
+          "resourceGroups": "2020-06-01",
+          "locks": "2016-09-01",
+          "virtualNetworks": "2020-05-01",
+          "subnets": "2020-05-01",
+          "networkSecurityGroups": "2020-05-01",
+          "routeTables": "2020-05-01"
+        }
+      },
+      "resources": [
+        {
+          "type": "Microsoft.Network/virtualNetworks",
+          "apiVersion": "[variables('apiVersions').virtualNetworks]",
+          "name": "[variables('spokeVntName')]",
+          "location": "[deployment().location]",
+          "dependsOn": [
+            "[concat('Microsoft.Network/networkSecurityGroups/', variables('spokeNsgName'))]",
+            "[concat('Microsoft.Network/routeTables/', variables('spokeUdrName'))]"
+          ],
+          "properties": {
+            "addressSpace": {
+              "addressPrefixes": [
+                "[parameters('spokeAddressPrefix')]"
+              ]
+            }
+          }
+        },
+        {
+          "type": "Microsoft.Network/routeTables",
+          "apiVersion": "[variables('apiVersions').routeTables]",
+          "name": "[variables('spokeUdrName')]",
+          "location": "[deployment().location]",
+          "properties": {
+            "routes": [
+              {
+                "name": "[variables('udrRoute')]",
+                "properties": {
+                  "addressPrefix": "0.0.0.0/0",
+                  "nextHopType": "VirtualAppliance",
+                  "nextHopIpAddress": "[parameters('hubFwIp')]"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Microsoft.Network/virtualNetworks/subnets",
+          "apiVersion": "[variables('apiVersions').subnets]",
+          "name": "[concat(variables('spokeVntName'), '/', variables('spokeSubName'))]",
+          "dependsOn": [
+            "[concat('Microsoft.Network/virtualNetworks/', variables('spokeVntName'))]",
+            "[concat('Microsoft.Network/networkSecurityGroups/', variables('spokeNsgName'))]",
+            "[concat('Microsoft.Network/networkSecurityGroups/', variables('spokeUdrName'))]"
+          ],
+          "properties": {
+            "addressPrefix": "[parameters('subnetAddressPrefix')]",
+            "routeTable": {
+              "id": "[variables('udrId')]"
+            },
+            "networkSecurityGroup": {
+              "id": "[variables('nsgId')]"
+            }
+          }
+        },
+        {
+          "type": "Microsoft.Network/networkSecurityGroups",
+          "apiVersion": "[variables('apiVersions').networkSecurityGroups]",
+          "name": "[variables('spokeNsgName')]",
+          "location": "[deployment().location]",
+          "properties": {
+            "securityRules": []
+          }
+        },
+        {
+          "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+          "apiVersion": "[variables('apiVersions').virtualNetworkPeerings]",
+          "name": "[concat(variables('spokeVntName'), '/',variables('spokeVntToHubVntPeer'))]",
+          "location": "[deployment().location]",
+          "dependsOn": [
+            "[variables('spokeVntName')]"
+          ],
+          "properties": {
+            "peeringState": "Connected",
+            "remoteVirtualNetwork": {
+              "id": "[variables('spokeVntResourceId')]"
+            },
+            "allowVirtualNetworkAccess": true,
+            "allowForwardedTraffic": false,
+            "allowGatewayTransit": false,
+            "useRemoteGateways": false
+          }
+        },
+        {
+          "type": "Microsoft.Resources/deployments",
+          "apiVersion": "[variables('apiVersions').deployments]",
+          "name": "hub-spoke",
+          "subscriptionId": "[parameters('hubSubscriptionId')]",
+          "resourceGroup": "[variables('hubRgName')]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Network/virtualNetworks', variables('spokeVntName'))]"
+          ],
+          "properties": {
+            "mode": "Incremental",
+            "expressionEvaluationOptions": {
+              "scope": "inner"
+            },
+            "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "parameters": {
+                "comPrefix": {
+                  "type": "String"
+                },
+                "locPrefix": {
+                  "type": "string"
+                },
+                "envPrefix": {
+                  "type": "String"
+                },
+                "hubSubscriptionId": {
+                  "type": "String"
+                },
+                "hubVntName": {
+                  "type": "string"
+                },
+                "hubRgName": {
+                  "type": "String"
+                },
+                "hubFwIp": {
+                  "type": "string"
+                },
+                "subnetAddressPrefix": {
+                  "type": "String"
+                }
+              },
+              "variables": {},
+              "resources": [
+                {
+                  "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+                  "apiVersion": "[variables('apiVersions').virtualNetworkPeerings]",
+                  "name": "[concat(parameters('hubVntName'), '/',variables('hubVntToSpokeVntPeer'))]",
+                  "location": "[deployment().location]",
+                  "properties": {
+                    "peeringState": "Connected",
+                    "remoteVirtualNetwork": {
+                      "id": "[variables('spokeVntResourceId')]"
+                    },
+                    "allowVirtualNetworkAccess": true,
+                    "allowForwardedTraffic": false,
+                    "allowGatewayTransit": false,
+                    "useRemoteGateways": false
+                  }
+                }
+              ]
+            },
+            "parameters": {
+              "hub-vnet-name": {
+                "value": "[variables('hub-vnet-name')]"
+              },
+              "deployment-prefix": {
+                "value": "[variables('deployment-prefix')]"
+              },
+              "spoke-vnet-resource-id": {
+                "value": "[variables('spoke-vnet-resource-id')]"
+              }
+            }
+          }
+        }
+      ],
+      "outputs": {}
+    },
+    "resourceGroup": "[variables('spokeRgName')]",
+    "parameters": {
+      "namePrefix": {
+        "value": "[parameters('namePrefix')]"
+      },
+      "hubSubscriptionId": {
+        "value": "[parameters('hubSubscriptionId')]"
+      },
+      "hubName": {
+        "value": "[parameters('hubName')]"
+      },
+      "spokeName": {
+        "value": "[parameters('spokeName')]"
+      },
+      "spokeVnetAddressPrefix": {
+        "value": "[parameters('spoke-workload-network-vnet_spokeVnetAddressPrefix')]"
+      },
+      "spokeSubnetAddressPrefix": {
+        "value": "[parameters('spoke-workload-network-vnet_spokeSubnetAddressPrefix')]"
+      },
+      "spokeOptionalSubnetNames": {
+        "value": "[parameters('spoke-workload-network-vnet_spokeOptionalSubnetNames')]"
+      },
+      "spokeOptionalSubnetPrefixes": {
+        "value": "[parameters('spoke-workload-network-vnet_spokeOptionalSubnetPrefixes')]"
+      },
+      "enableDdosProtection": {
+        "value": "[parameters('enableDdosProtection')]"
+      },
+      "logsRetentionInDays": {
+        "value": "[parameters('logsRetentionInDays')]"
+      },
+      "deploySpoke": {
+        "value": "[parameters('deploySpoke')]"
+      }
+    }
+  }
+}

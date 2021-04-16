@@ -1,0 +1,30 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualMachines": {
+      "value": [
+        {
+          "name": "VM01",
+          "virtualNetworkResourceGroup": "dwer-syd-npe-arg-network",
+          "virtualNetworkName": "dwer-syd-npe-vnt-10.50.1.0",
+          "subNetName": "app"
+        }
+      ]
+    },
+    "vmSize": {
+      "value": "Standard_E4s_v4"
+    },
+    "adminUsername": {
+      "value": "AzureAdmin"
+    },
+    "adminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/8d0248a2-d875-4407-99a6-0981fe09bff2/resourceGroups/dwer-syd-npe-arg-security/providers/Microsoft.KeyVault/vaults/dwer-syd-npe-akv-d798539"
+        },
+        "secretName": "virtualMachinePassword"
+      }
+    }
+  }
+}

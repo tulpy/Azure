@@ -1,0 +1,86 @@
+{
+    "properties": {
+        "parameters": {
+            "comPrefix": {
+                "type": "string",
+                "maxLength": 5,
+                "metadata": {
+                    "displayName": "company identifier"
+                },
+                "defaultValue": "sjt"
+            },
+            "locPrefix": {
+                "type": "string",
+                "maxLength": 3,
+                "metadata": {
+                    "displayName": "location identifier"
+                },
+                "defaultValue": "syd"
+            },
+            "envPrefix": {
+                "type": "string",
+                "maxLength": 3,
+                "metadata": {
+                    "displayName": "environment identifier"
+                },
+                "defaultValue": "prd"
+            },
+            "spokeAddressPrefix": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Spoke Virtual Network CIDR Range"
+                },
+                "defaultValue": "10.50.0.0/18"
+            },
+            "subnetAddressPrefix": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "API Management CIDR Range"
+                },
+                "defaultValue": "10.50.1.0/24"
+            },
+            "hubSubscriptionId": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Hub Subscription ID"
+                },
+                "defaultValue": "8f8224ca-1a9c-46d1-9206-1cf2a7c51de8"
+            },
+            "hubResourceGroup": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Hub Network Resource Group"
+                },
+                "defaultValue": "sjt-syd-cor-arg-network"
+            },
+            "hubVntName": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Hub VNet Name"
+                },
+                "defaultValue": "sjt-syd-cor-vnt-10.49.0.0"
+            },
+            "hubFwIp": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "FW Ip"
+                },
+                "defaultValue": "1.1.1.1"
+            }
+        },
+        "resourceGroups": {
+            "Network": {
+                "location": "australiaeast",
+                "metadata": {},
+                "dependsOn": []
+            }
+        },
+        "targetScope": "subscription",
+        "status": {
+            "timeCreated": "2019-03-23T20:53:01+00:00",
+            "lastModified": "2019-03-23T20:55:01+00:00"
+        },
+        "description": "Testing VNET peering scenario"
+    },
+    "type": "Microsoft.Blueprint/blueprints"
+}
