@@ -41,7 +41,7 @@
             "type": "string",
             "defaultValue": "Standard_B2s"
         },
-                "ThreatIntelMode": {
+        "ThreatIntelMode": {
             "metadata": {
                 "description": "Threat Intellengence Mode traffic passing hits these rules first and have the following actions Off, Alert, Deny"
             },
@@ -69,7 +69,7 @@
             "metadata": {
                 "description": "Array of The specific GitHub Repos URLs for each Repo this must be looked up as it is unique per instance EX. github.com/swiftsolves-msft* and raw.githubusercontent.com/swiftsolves-msft* "
             },
-            "defaultValue": ["github.com/tulpy*","raw.githubusercontent.com/tulpy*"],
+            "defaultValue": [ "github.com/tulpy*", "raw.githubusercontent.com/tulpy*" ],
             "type": "Array"
         },
         "numberOfFirewallPublicIPAddresses": {
@@ -86,16 +86,16 @@
         "bastionSubnetPrefix": "10.0.0.0/24",
         "nextHopIP": "10.0.1.4",
         "userManagedIdentityName": "umi-azfw",
-        "userAssignedIdentityId": "[concat('/subscriptions/8d0248a2-d875-4407-99a6-0981fe09bff2/resourceGroups/insight-syd-npe-arg-azfwdemo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', variables('BastionIpName'))]",
+        "userAssignedIdentityId": "[concat('/subscriptions/8d0248a2-d875-4407-99a6-0981fe09bff2/resourceGroups/insight-syd-npe-arg-azfwdemo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', variables('userManagedIdentityName'))]",
         "bastionSubnetName": "AzureBastionSubnet",
         "bastionName": "bastion",
         "bastionIpName": "bastionpip",
         "bastionPipId": "[resourceId('Microsoft.Network/publicIPAddresses/', variables('BastionIpName'))]",
         "bastionSubnetId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), variables('bastionSubnetName'))]",
-        "bastionNsg": "[concat(variables('bastionSubnetName'), '-nsg')]",
+        "bastionNsg": "nsg01",
         "serversSubnetName": "ServersSubnet",
         "serverSubnetId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), variables('serversSubnetName'))]",
-        "serverNsg": "[concat(variables('serversSubnetName'), '-nsg')]",
+        "serverNsg": "nsg02",
         "serverName": "azfwdemo",
         "serverNicName": "nic",
         "azfwSubnetName": "AzureFirewallSubnet",
@@ -430,7 +430,8 @@
             "name": "[variables('serverNicName')]",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+                "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'), '/subnets/', variables('serversSubnetName'))]"
             ],
             "properties": {
                 "ipConfigurations": [
@@ -485,11 +486,14 @@
                 "licenseType": "Windows_Server"
             }
         },
-         {
+        {
             "type": "Microsoft.Network/firewallPolicies",
             "apiVersion": "2020-05-01",
             "name": "[variables('azfwPolicyName')]",
             "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[variables('userAssignedIdentityId')]"
+            ],
             "identity": {
                 "type": "UserAssigned",
                 "userAssignedIdentities": {
@@ -497,7 +501,7 @@
                 }
             },
             "properties": {
-                "sku": {"tier": "Premium"},
+                "sku": { "tier": "Premium" },
                 "threatIntelMode": "[parameters('ThreatIntelMode')]",
                 "threatIntelWhitelist": {
                     "ipAddresses": []
@@ -508,13 +512,13 @@
                         "keyVaultSecretId": "[concat(reference(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName')), '2019-09-01').vaultUri, 'secrets/', parameters('keyVaultCASecretName'))]"
                     }
                 },
-            	"intrusionDetection": {
-					"mode": "[parameters('IDPSMode')]",
-					"configuration": {
-						"signatureOverrides": [],
-						"bypassTrafficSettings": []
-					}
-				},
+                "intrusionDetection": {
+                    "mode": "[parameters('IDPSMode')]",
+                    "configuration": {
+                        "signatureOverrides": [],
+                        "bypassTrafficSettings": []
+                    }
+                },
                 "dnsSettings": {
                     "servers": [],
                     "enableProxy": true
@@ -549,14 +553,14 @@
                                 ],
                                 "fqdnTags": [],
                                 "targetFqdns": [],
-									"targetUrls":[ 
-										"github.githubassets.com/*",
-										"github.com/session",
-										"github.com/sessions/two-factor",
-										"github.com/login*",
-										"github.com/Azure*",
-										"raw.githubusercontent.com/Azure*"
-									],
+                                "targetUrls": [
+                                    "github.githubassets.com/*",
+                                    "github.com/session",
+                                    "github.com/sessions/two-factor",
+                                    "github.com/login*",
+                                    "github.com/Azure*",
+                                    "raw.githubusercontent.com/Azure*"
+                                ],
                                 "terminateTLS": true,
                                 "sourceAddresses": [],
                                 "destinationAddresses": [],
@@ -575,7 +579,7 @@
                                 ],
                                 "fqdnTags": [],
                                 "targetFqdns": [],
-									"targetUrls": "[parameters('GitHubRepoUrls')]",
+                                "targetUrls": "[parameters('GitHubRepoUrls')]",
                                 "terminateTLS": true,
                                 "sourceAddresses": [],
                                 "destinationAddresses": [],
