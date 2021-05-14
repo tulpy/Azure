@@ -331,7 +331,8 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
                 "[resourceId('Microsoft.Network/routeTables', variables('azfwRouteTableName'))]",
-                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('serverNsg'))]"
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('serverNsg'))]",
+                "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'), '/subnets/AzureBastionSubnet')]"
             ],
             "properties": {
                 "addressPrefix": "[variables('serversSubnetPrefix')]",
