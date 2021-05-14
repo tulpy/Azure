@@ -10,9 +10,20 @@
             "type": "string",
             "defaultValue": "azureadmin"
         },
+        "keyvaultName": {
+            "type": "string",
+            "defaultValue": "dwer-syd-npe-akv-d798539"
+        },
         "adminPassword": {
             "type": "string",
-            "defaultValue": "Steveisgay111"
+            "defaultValue": "Wednesday0101!"
+        },
+        "keyVaultCASecretName": {
+            "metadata": {
+                "description": "Secret name for CA Certificate used in Azure Firewall TLS Inspection"
+            },
+            "defaultValue": "Inter-CA",
+            "type": "String"
         },
         "location": {
             "type": "string",
@@ -74,20 +85,19 @@
         "azureFirewallSubnetPrefix": "10.0.1.0/24",
         "bastionSubnetPrefix": "10.0.0.0/24",
         "nextHopIP": "10.0.1.4",
-
+        "userManagedIdentityName": "umi-azfw",
+        "userAssignedIdentityId": "[concat('/subscriptions/8d0248a2-d875-4407-99a6-0981fe09bff2/resourceGroups/insight-syd-npe-arg-azfwdemo/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', variables('BastionIpName'))]",
         "bastionSubnetName": "AzureBastionSubnet",
         "bastionName": "bastion",
         "bastionIpName": "bastionpip",
         "bastionPipId": "[resourceId('Microsoft.Network/publicIPAddresses/', variables('BastionIpName'))]",
         "bastionSubnetId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), variables('bastionSubnetName'))]",
         "bastionNsg": "[concat(variables('bastionSubnetName'), '-nsg')]",
-
         "serversSubnetName": "ServersSubnet",
         "serverSubnetId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), variables('serversSubnetName'))]",
         "serverNsg": "[concat(variables('serversSubnetName'), '-nsg')]",
         "serverName": "azfwdemo",
         "serverNicName": "nic",
-
         "azfwSubnetName": "AzureFirewallSubnet",
         "azfwIpName": "azfwpip",
         "azfwSubnetId": "[resourceId('Microsoft.Network/virtualNetworks/subnets',parameters('virtualNetworkName'), variables('azfwSubnetName'))]",
@@ -112,6 +122,12 @@
         ]
     },
     "resources": [
+        {
+            "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+            "apiVersion": "2018-11-30",
+            "name": "[variables('userManagedIdentityName')]",
+            "location": "[resourceGroup().location]"
+        },
         {
             "type": "Microsoft.Network/routeTables",
             "name": "[variables('azfwRouteTableName')]",
@@ -477,7 +493,7 @@
             "identity": {
                 "type": "UserAssigned",
                 "userAssignedIdentities": {
-                    "[parameters('userAssignedIdentityId')]": {}
+                    "[variables('userAssignedIdentityId')]": {}
                 }
             },
             "properties": {
