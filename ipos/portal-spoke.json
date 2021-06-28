@@ -121,12 +121,12 @@
             },
             {
                 "name": "esLz",
-                "label": "Landing Zone",
+                "label": "Platform Services",
                 "subLabel": {
                     "preValidation": "Select 'Yes' if goal state should be enforced during deployment. Select 'No' if you want to do it post deployment using Azure Policy.",
                     "postValidation": "Done"
                 },
-                "bladeTitle": "Landing Zone",
+                "bladeTitle": "Platform Services",
                 "elements": [
                     {
                         "name": "infoBox1",
@@ -312,7 +312,7 @@
             },
             {
                 "name": "esLzConnectivity",
-                "label": "Network Topology & Connectivity",
+                "label": "Networking",
                 "subLabel": {
                     "preValidation": "",
                     "postValidation": ""
@@ -630,7 +630,7 @@
                         "name": "esHubSubId",
                         "type": "Microsoft.Common.TextBox",
                         "visible": true,
-                        "label": "PLatform Connectivity Internal Hub Subscription Id",
+                        "label": "Platform Connectivity Subscription Id",
                         "toolTip": "Provide the Platform Connectivity INT Hub Subscription Id",
                         "defaultValue": "4dbf040a-1431-4a27-a586-99cd795a9b44",
                         "constraints": {
@@ -641,7 +641,7 @@
                         "name": "esHubVnetName",
                         "type": "Microsoft.Common.TextBox",
                         "visible": true,
-                        "label": "Internal Connectivity Hub Name",
+                        "label": "Platform Connectivity Virtual Network Name",
                         "toolTip": "Provide the name of the Internal Hub virtual network",
                         "defaultValue": "vn-auea-pr-prd-platform-inthub-01",
                         "constraints": {
@@ -652,7 +652,7 @@
                         "name": "esHubVnetRG",
                         "type": "Microsoft.Common.TextBox",
                         "visible": true,
-                        "label": "Internal Connectivity Hub Resource Group ",
+                        "label": "Platform Connectivity Resource Group ",
                         "toolTip": "Provide the Resource Group of the INT Hub virtual network",
                         "defaultValue": "rg-auea-pr-prd-inthub-01",
                         "constraints": {
