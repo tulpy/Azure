@@ -669,12 +669,12 @@
             "enablePrivate": "[steps('esLzConnectivity').esPrivate]",
             "subnetMaskForPrivate": "[steps('esLzConnectivity').esAddressPrivate]",
 
-            "enableSpokeAks": "[steps('esLzConnectivity').esSpoke]",
+            "enableSpokeAks": "[steps('esLzConnectivity').esSpokeAks]",
             "addressAks": "[steps('esLzConnectivity').esAddressAksVnet]",
             "enableAks": "[steps('esLzConnectivity').esAks]",
             "subnetMaskForAks": "[steps('esLzConnectivity').esAddressAksSubnet]",
 
-            "enableSpokePls": "[steps('esLzConnectivity').esSpoke]",
+            "enableSpokePls": "[steps('esLzConnectivity').esSpokePls]",
             "addressPls": "[steps('esLzConnectivity').esAddressPlsVnet]",
             "enablePls": "[steps('esLzConnectivity').esPls]",
             "subnetMaskForPls": "[steps('esLzConnectivity').esAddressPlsSubnet]",
