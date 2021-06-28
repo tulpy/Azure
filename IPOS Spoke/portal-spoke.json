@@ -1,0 +1,692 @@
+{
+    "handler": "Microsoft.Azure.CreateUIDef",
+    "version": "0.1.2-preview",
+    "parameters": {
+        "basics": [
+            {}
+        ],
+        "steps": [
+            {
+                "name": "esNaming",
+                "label": "Naming Prefixes",
+                "subLabel": {
+                    "preValidation": "Provide naming prefix values for all Azure resources that will be created.",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "Naming Prefixes",
+                "elements": [
+                    {
+                        "name": "infoBox1",
+                        "type": "Microsoft.Common.InfoBox",
+                        "visible": true,
+                        "options": {
+                            "icon": "Info",
+                            "text": "Tenant level deployments require access at the tenant root (/) scope. Visit this link to ensure you have the appropriate RBAC permission to complete the deployment",
+                            "uri": "https://docs.microsoft.com/azure/role-based-access-control/elevate-access-global-admin"
+                        }
+                    },
+                    {
+                        "name": "textBlock0",
+                        "type": "Microsoft.Common.TextBlock",
+                        "visible": true,
+                        "options": {
+                            "text": "Please provide naming prefixes for the Company, Location and Subscription identifiers:"
+                        }
+                    },
+                    {
+                        "name": "esComIdentifier",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Company Identifier Prefix",
+                        "toolTip": "Provide a value for the company identifier, 1-5 characters.",
+                        "defaultValue": "stt",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z-]{1,5}$",
+                            "validationMessage": "The prefix must be 1-5 characters."
+                        }
+                    },
+                    {
+                        "name": "esLocIdentifier",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Location Identifier Prefix",
+                        "toolTip": "Provide a value for the location identifier, 3 characters (Australia East - SYD) or (Australia SouthEast - MEL)",
+                        "defaultValue": "syd",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z-]{3}$",
+                            "validationMessage": "The prefix must be 3 characters."
+                        }
+                    },
+                    {
+                        "name": "esSubIdentifier",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Subscription Identifier Prefix",
+                        "toolTip": "Provide a value for the subscription identifier.",
+                        "defaultValue": "prd",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z-]{3}$",
+                            "validationMessage": "The prefix must be 3 characters."
+                        }
+                    },
+                    {
+                        "name": "text3",
+                        "type": "Microsoft.Common.TextBlock",
+                        "visible": true,
+                        "options": {
+                            "text": "Please provide values for the Landing Zone tags:"
+                        }
+                    },
+                    {
+                        "name": "esAppNameTag",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Cost Center Tag",
+                        "toolTip": "Provide a value for the Application Name tag",
+                        "defaultValue": "IPOS",
+                        "constraints": {
+                            "required": false
+                        }
+                    },
+                    {
+                        "name": "esSubscriptionTag",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Environment Tag",
+                        "toolTip": "Provide a value for the environment tag",
+                        "defaultValue": "production",
+                        "constraints": {
+                            "required": false
+                        }
+                    },
+                    {
+                        "name": "esOwnerTag",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Owner Tag",
+                        "toolTip": "Provide a value for the owner tag",
+                        "defaultValue": "tulpy",
+                        "constraints": {
+                            "required": false
+                        }
+                    },
+                    {
+                        "name": "esCostCenterTag",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Cost Center Tag",
+                        "toolTip": "Provide a value for the Cost Center tag",
+                        "defaultValue": "1234",
+                        "constraints": {
+                            "required": false
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "esLz",
+                "label": "Landing Zone",
+                "subLabel": {
+                    "preValidation": "Select 'Yes' if goal state should be enforced during deployment. Select 'No' if you want to do it post deployment using Azure Policy.",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "Landing Zone",
+                "elements": [
+                    {
+                        "name": "infoBox1",
+                        "type": "Microsoft.Common.InfoBox",
+                        "visible": true,
+                        "options": {
+                            "icon": "Info",
+                            "text": "To enable the Landing Zone, you must allocate an Azure Subscription. Please note, this Azure Subscription will be moved to the chosen Management Group"
+                        }
+                    },
+                    {
+                        "name": "subApi",
+                        "type": "Microsoft.Solutions.ArmApiControl",
+                        "request": {
+                            "method": "GET",
+                            "path": "subscriptions?api-version=2020-01-01"
+                        }
+                    },
+                    {
+                        "name": "esLzSubSection",
+                        "type": "Microsoft.Common.Section",
+                        "label": "Landing Zone Subscription",
+                        "elements": [
+                            {
+                                "type": "Microsoft.Common.SubscriptionSelector",
+                                "name": "esLzSub",
+                                "label": "Landing Zone Subscription"
+                            }
+                        ],
+                        "visible": true
+                    },
+                    {
+                        "name": "esEnableIposRgs",
+                        "type": "Microsoft.Common.OptionsGroup",
+                        "label": "Deploy Empty IPOS Resource Groups",
+                        "defaultValue": "No",
+                        "toolTip": "If 'Yes' is selected, Resource Groups will be created for IPOS resources.",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Yes",
+                                    "value": "Yes"
+                                },
+                                {
+                                    "label": "No",
+                                    "value": "No"
+                                }
+                            ]
+                        },
+                        "visible": true
+                    },
+                    {
+                        "name": "esEnablePrivateDnsZones",
+                        "type": "Microsoft.Common.OptionsGroup",
+                        "label": "Deploy Azure Private DNS Zone",
+                        "defaultValue": "No",
+                        "toolTip": "If 'Yes' is selected, Azure Private DNS Zone will be deployed.",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Yes",
+                                    "value": "Yes"
+                                },
+                                {
+                                    "label": "No",
+                                    "value": "No"
+                                }
+                            ]
+                        },
+                        "visible": true
+                    },
+                    {
+                        "name": "esPrivateDnsZoneName",
+                        "type": "Microsoft.Common.TextBox",
+                        "visible": "[equals(steps('esPlatformConnectivity').esEnablePrivateDnsZones, 'Yes')]",
+                        "label": "Private DNS Zone Name",
+                        "toolTip": "Provide the Private DNS Zone Name",
+                        "defaultValue": "ipos.nprd.dev.p.az.police.nsw.gov.au"
+                    },
+                    {
+                        "name": "esSta",
+                        "type": "Microsoft.Common.OptionsGroup",
+                        "label": "Deploy a Storage account for diagnostics.",
+                        "defaultValue": "Yes",
+                        "toolTip": "If 'Yes' is selected, a Storage account will be deployed",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Yes",
+                                    "value": "Yes"
+                                },
+                                {
+                                    "label": "No",
+                                    "value": "No"
+                                }
+                            ]
+                        },
+                        "visible": true
+                    },
+                    {
+                        "name": "esAkv",
+                        "type": "Microsoft.Common.OptionsGroup",
+                        "label": "Deploy Azure KEy Vault.",
+                        "defaultValue": "Yes",
+                        "toolTip": "If 'Yes' is selected, an Azure Key Vault will be deployed",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Yes",
+                                    "value": "Yes"
+                                },
+                                {
+                                    "label": "No",
+                                    "value": "No"
+                                }
+                            ]
+                        },
+                        "visible": true
+                    },
+                    {
+                        "name": "esBudget",
+                        "type": "Microsoft.Common.OptionsGroup",
+                        "label": "Deploy an Azure Budget.",
+                        "defaultValue": "Yes",
+                        "toolTip": "If 'Yes' is selected, an Azure Budget will be deployed",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Yes",
+                                    "value": "Yes"
+                                },
+                                {
+                                    "label": "No",
+                                    "value": "No"
+                                }
+                            ]
+                        },
+                        "visible": true
+                    },
+                    {
+                        "name": "esBudgetAmount",
+                        "type": "Microsoft.Common.TextBox",
+                        "visible": "[equals(steps('esLz').esBudget, 'Yes')]",
+                        "label": "Budget Amount ($)",
+                        "toolTip": "Provide the Budget amount in $",
+                        "defaultValue": "1000"
+                    },
+                    {
+                        "name": "esBudgetTimeGrain",
+                        "type": "Microsoft.Common.OptionsGroup",
+                        "label": "Budget Time Grain.",
+                        "defaultValue": "Monthly",
+                        "toolTip": "If 'Yes' is selected, a Recovery Services Vault will be deployed",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Monthly",
+                                    "value": "Monthly"
+                                },
+                                {
+                                    "label": "Quarterly",
+                                    "value": "Quarterly"
+                                },
+                                {
+                                    "label": "Annually",
+                                    "value": "Annually"
+                                }
+                            ]
+                        },
+                        "visible": "[equals(steps('esLz').esBudget, 'Yes')]"
+                    },
+                    {
+                        "name": "esBudgetContactEmail",
+                        "type": "Microsoft.Common.TextBox",
+                        "visible": "[equals(steps('esLz').esBudget, 'Yes')]",
+                        "label": "Budget Contact Email Addresses",
+                        "toolTip": "An array of email addresses for the budget",
+                        "defaultValue": [
+                            "stephen.tulp@outlook.com"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "esLzConnectivity",
+                "label": "Network Topology & Connectivity (Spoke)",
+                "subLabel": {
+                    "preValidation": "",
+                    "postValidation": ""
+                },
+                "bladeTitle": "Spoke Connectivity",
+                "elements": [
+                    {
+                        "name": "esSpokeIaaS",
+                        "type": "Microsoft.Common.OptionsGroup",
+                        "label": "Deploy the Spoke Virtual Network (IaaS)",
+                        "defaultValue": "Yes",
+                        "toolTip": "If 'Yes' is selected, a Virtual Network will be deployed.",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Yes",
+                                    "value": "Yes"
+                                },
+                                {
+                                    "label": "No",
+                                    "value": "No"
+                                }
+                            ]
+                        },
+                        "visible": true
+                    },
+                    {
+                        "name": "esAddressIaaS",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Virtual network CIDR Range",
+                        "toolTip": "Provide address prefix in CIDR notation (e.g. 10.52.0.0/18)",
+                        "defaultValue": "10.52.0.0/18",
+                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "constraints": {
+                            "required": true,
+                            "validationMessage": "Virtual network's address space, specified as a CIDR notation (e.g. 10.52.0.0/18)"
+                        }
+                    },
+                    {
+                        "name": "esLocationsApi",
+                        "type": "Microsoft.Solutions.ArmApiControl",
+                        "request": {
+                            "method": "GET",
+                            "path": "locations?api-version=2019-11-01"
+                        }
+                    },
+                    {
+                        "name": "esNwLocation",
+                        "type": "Microsoft.Common.DropDown",
+                        "label": "Azure Region for the Landing Zone Virtual Network.",
+                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "toolTip": "Select the target Azure region for the deployment.",
+                        "constraints": {
+                            "allowedValues": "[map(steps('esLzConnectivity').esLocationsApi.value, (item) => parse(concat('{\"label\":\"', item.displayName, '\",\"value\":\"', item.name, '\"}')))]",
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "esAppGwy",
+                        "type": "Microsoft.Common.OptionsGroup",
+                        "label": "Deploy Application Gateway Subnet",
+                        "defaultValue": "Yes",
+                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "toolTip": "If 'Yes' is selected, a subnet for Application Gateway will be deployed.",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Yes",
+                                    "value": "Yes"
+                                },
+                                {
+                                    "label": "No",
+                                    "value": "No"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "esAddressAppGwy",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "CIDR range for the Application Gateway Subnet",
+                        "toolTip": "Provide address prefix in CIDR notation (e.g 10.100.0.0/24)",
+                        "defaultValue": "10.52.0.0/24",
+                        "visible": "[equals(steps('esLzConnectivity').esWeb, 'Yes')]",
+                        "constraints": {
+                            "required": true,
+                            "validationMessage": "The subnet network's address space, specified as one address prefixes in CIDR notation (e.g. 192.168.1.0/24)"
+                        }
+                    },
+                    {
+                        "name": "esPublic",
+                        "type": "Microsoft.Common.OptionsGroup",
+                        "label": "Deploy Public Subnet",
+                        "defaultValue": "Yes",
+                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "toolTip": "If 'Yes' is selected, a subnet for Public Servers will be deployed.",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Yes",
+                                    "value": "Yes"
+                                },
+                                {
+                                    "label": "No",
+                                    "value": "No"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "esAddressPublic",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "CIDR range for the Public Subnet",
+                        "toolTip": "Provide address prefix in CIDR notation (e.g 10.100.0.0/24)",
+                        "defaultValue": "10.52.1.0/24",
+                        "visible": "[equals(steps('esLzConnectivity').esApp, 'Yes')]",
+                        "constraints": {
+                            "required": true,
+                            "validationMessage": "The subnet network's address space, specified as one address prefixes in CIDR notation (e.g. 192.168.1.0/24)"
+                        }
+                    },
+                    {
+                        "name": "esPrivate",
+                        "type": "Microsoft.Common.OptionsGroup",
+                        "label": "Deploy Private Subnet",
+                        "defaultValue": "Yes",
+                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "toolTip": "If 'Yes' is selected, a subnet for Data Servers will be deployed.",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Yes",
+                                    "value": "Yes"
+                                },
+                                {
+                                    "label": "No",
+                                    "value": "No"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "esAddressPrivate",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "CIDR range for the Private Subnet",
+                        "toolTip": "Provide address prefix in CIDR notation (e.g 10.100.0.0/24)",
+                        "defaultValue": "10.52.2.0/24",
+                        "visible": "[equals(steps('esLzConnectivity').esData, 'Yes')]",
+                        "constraints": {
+                            "required": true,
+                            "validationMessage": "The subnet network's address space, specified as one address prefixes in CIDR notation (e.g. 192.168.1.0/24)"
+                        }
+                    },
+
+                    {
+                        "name": "esSpokeAks",
+                        "type": "Microsoft.Common.OptionsGroup",
+                        "label": "Deploy the Spoke Virtual Network (AKS)",
+                        "defaultValue": "Yes",
+                        "toolTip": "If 'Yes' is selected, a Virtual Network will be deployed.",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Yes",
+                                    "value": "Yes"
+                                },
+                                {
+                                    "label": "No",
+                                    "value": "No"
+                                }
+                            ]
+                        },
+                        "visible": true
+                    },
+                    {
+                        "name": "esAddressAksVnet",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Virtual network CIDR Range",
+                        "toolTip": "Provide address prefix in CIDR notation (e.g. 10.52.0.0/18)",
+                        "defaultValue": "10.52.0.0/18",
+                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "constraints": {
+                            "required": true,
+                            "validationMessage": "Virtual network's address space, specified as a CIDR notation (e.g. 10.52.0.0/18)"
+                        }
+                    },
+                    {
+                        "name": "esAks",
+                        "type": "Microsoft.Common.OptionsGroup",
+                        "label": "Deploy AKS Subnet",
+                        "defaultValue": "Yes",
+                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "toolTip": "If 'Yes' is selected, a subnet for AKS will be deployed.",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Yes",
+                                    "value": "Yes"
+                                },
+                                {
+                                    "label": "No",
+                                    "value": "No"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "esAddressAksSubnet",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "CIDR range for the AKS Subnet",
+                        "toolTip": "Provide address prefix in CIDR notation (e.g 10.100.0.0/24)",
+                        "defaultValue": "10.52.0.0/24",
+                        "visible": "[equals(steps('esLzConnectivity').esWeb, 'Yes')]",
+                        "constraints": {
+                            "required": true,
+                            "validationMessage": "The subnet network's address space, specified as one address prefixes in CIDR notation (e.g. 192.168.1.0/24)"
+                        }
+                    },
+
+                    {
+                        "name": "esSpokePls",
+                        "type": "Microsoft.Common.OptionsGroup",
+                        "label": "Deploy the PrivateLink Virtual Network",
+                        "defaultValue": "Yes",
+                        "toolTip": "If 'Yes' is selected, a Virtual Network will be deployed.",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Yes",
+                                    "value": "Yes"
+                                },
+                                {
+                                    "label": "No",
+                                    "value": "No"
+                                }
+                            ]
+                        },
+                        "visible": true
+                    },
+                    {
+                        "name": "esAddressPlsVnet",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Virtual network CIDR Range",
+                        "toolTip": "Provide address prefix in CIDR notation (e.g. 10.52.0.0/18)",
+                        "defaultValue": "10.52.0.0/18",
+                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "constraints": {
+                            "required": true,
+                            "validationMessage": "Virtual network's address space, specified as a CIDR notation (e.g. 10.52.0.0/18)"
+                        }
+                    },
+                    {
+                        "name": "esPls",
+                        "type": "Microsoft.Common.OptionsGroup",
+                        "label": "Deploy AKS Subnet",
+                        "defaultValue": "Yes",
+                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "toolTip": "If 'Yes' is selected, a subnet for PLS will be deployed.",
+                        "constraints": {
+                            "allowedValues": [
+                                {
+                                    "label": "Yes",
+                                    "value": "Yes"
+                                },
+                                {
+                                    "label": "No",
+                                    "value": "No"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "esAddressPlsSubnet",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "CIDR range for the AKS Subnet",
+                        "toolTip": "Provide address prefix in CIDR notation (e.g 10.100.0.0/24)",
+                        "defaultValue": "10.52.0.0/24",
+                        "visible": "[equals(steps('esLzConnectivity').esWeb, 'Yes')]",
+                        "constraints": {
+                            "required": true,
+                            "validationMessage": "The subnet network's address space, specified as one address prefixes in CIDR notation (e.g. 192.168.1.0/24)"
+                        }
+                    },
+
+                    {
+                        "name": "text1",
+                        "type": "Microsoft.Common.TextBlock",
+                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "options": {
+                            "text": "Please provide details for the Platform Connectivity Hub virtual network"
+                        }
+                    },
+                    {
+                        "name": "esHubSubId",
+                        "type": "Microsoft.Common.TextBox",
+                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "label": "PLatform Connectivity INT Hub Subscription Id",
+                        "toolTip": "Provide the Platform Connectivity INT Hub Subscription Id",
+                        "defaultValue": "4dbf040a-1431-4a27-a586-99cd795a9b44",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "esHubVnetName",
+                        "type": "Microsoft.Common.TextBox",
+                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "label": "INT Hub Virtual Network Name",
+                        "toolTip": "Provide the name of the INT Hub virtual network",
+                        "defaultValue": "vn-auea-pr-prd-platform-inthub-01",
+                        "constraints": {
+                            "required": true
+                        }
+                    },
+                    {
+                        "name": "esHubVnetRG",
+                        "type": "Microsoft.Common.TextBox",
+                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "label": "INT Hub Virtual Network Resource Group ",
+                        "toolTip": "Provide the Resource Group of the INT Hub virtual network",
+                        "defaultValue": "rg-auea-pr-prd-inthub-01",
+                        "constraints": {
+                            "required": true
+                        }
+                    }
+                ]
+            }
+        ],
+        "outputs": {
+            "companyPrefix": "[steps('esNaming').esComIdentifier]",
+            "environmentPrefix": "[steps('esNaming').esSubIdentifier]",
+            "locationPrefix": "[steps('esNaming').esLocIdentifier]",
+            "argPrefix": "[steps('esNaming').esArgIdentifier]",
+            "vntPrefix": "[steps('esNaming').esVntIdentifier]",
+            "staPrefix": "[steps('esNaming').esStaIdentifier]",
+            "udrPrefix": "[steps('esNaming').esUdrIdentifier]",
+            "nsgPrefix": "[steps('esNaming').esNsgIdentifier]",
+            "akvPrefix": "[steps('esNaming').esAkvIdentifier]",
+            "rsvPrefix": "[steps('esNaming').esRsvIdentifier]",
+            "subscriptionTag": "[steps('esNaming').esSubscriptionTag]",
+            "ownerTag": "[steps('esNaming').esOwnerTag]",
+            "costCenterTag": "[steps('esNaming').esCostCenterTag]",
+
+            "SpokeSubscriptionId": "[steps('esLz').esLzSubSection.esLzSub.subscriptionId]",
+
+            "enableBudget": "[steps('esLz').esBudget]",
+            "amount": "[steps('esLz').esBudgetAmount]",
+            "timeGrain": "[steps('esLz').esBudgetTimeGrain]",
+            "contactEmails": "[steps('esLz').esBudgetContactEmail]",
+
+            "location": "[steps('esLzConnectivity').esNwLocation]",
+
+            "enableSpokeIaaS": "[steps('esLzConnectivity').esSpokeIaaS]",
+            "addressIaaS": "[steps('esLzConnectivity').esAddressIaaS]",
+            "enableAppGwy": "[steps('esLzConnectivity').esAppGwy]",
+            "subnetMaskForAppGwy": "[steps('esLzConnectivity').esAddressAppGwy]",
+            "enablePublic": "[steps('esLzConnectivity').esPublic]",
+            "subnetMaskForPublic": "[steps('esLzConnectivity').esAddressPublic]",
+            "enablePrivate": "[steps('esLzConnectivity').esPrivate]",
+            "subnetMaskForPrivate": "[steps('esLzConnectivity').esAddressPrivate]",
+
+            "enableSpokeAks": "[steps('esLzConnectivity').esSpoke]",
+            "addressAks": "[steps('esLzConnectivity').esAddressAksVnet]",
+            "enableAks": "[steps('esLzConnectivity').esAks]",
+            "subnetMaskForAks": "[steps('esLzConnectivity').esAddressAksSubnet]",
+
+            "enableSpokePls": "[steps('esLzConnectivity').esSpoke]",
+            "addressPls": "[steps('esLzConnectivity').esAddressPlsVnet]",
+            "enablePls": "[steps('esLzConnectivity').esPls]",
+            "subnetMaskForPls": "[steps('esLzConnectivity').esAddressPlsSubnet]",
+
+            "connectivitySubscriptionId": "[steps('esLzConnectivity').esHubSubId]",
+            "hubVnetName": "[steps('esLzConnectivity').esHubVnetName]",
+            "hubVnetRG": "[steps('esLzConnectivity').esHubVnetRG]"
+        }
+    }
+}
