@@ -345,7 +345,7 @@
                         "label": "Virtual network CIDR Range",
                         "toolTip": "Provide address prefix in CIDR notation (e.g. 10.52.0.0/18)",
                         "defaultValue": "10.52.0.0/18",
-                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esSpokeIaaS, 'Yes')]",
                         "constraints": {
                             "required": true,
                             "validationMessage": "Virtual network's address space, specified as a CIDR notation (e.g. 10.52.0.0/18)"
@@ -363,7 +363,7 @@
                         "name": "esNwLocation",
                         "type": "Microsoft.Common.DropDown",
                         "label": "Azure Region for the Landing Zone Virtual Network.",
-                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esSpokeIaaS, 'Yes')]",
                         "toolTip": "Select the target Azure region for the deployment.",
                         "constraints": {
                             "allowedValues": "[map(steps('esLzConnectivity').esLocationsApi.value, (item) => parse(concat('{\"label\":\"', item.displayName, '\",\"value\":\"', item.name, '\"}')))]",
@@ -375,7 +375,7 @@
                         "type": "Microsoft.Common.OptionsGroup",
                         "label": "Deploy Application Gateway Subnet",
                         "defaultValue": "Yes",
-                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esSpokeIaaS, 'Yes')]",
                         "toolTip": "If 'Yes' is selected, a subnet for Application Gateway will be deployed.",
                         "constraints": {
                             "allowedValues": [
@@ -396,7 +396,7 @@
                         "label": "CIDR range for the Application Gateway Subnet",
                         "toolTip": "Provide address prefix in CIDR notation (e.g 10.100.0.0/24)",
                         "defaultValue": "10.52.0.0/24",
-                        "visible": "[equals(steps('esLzConnectivity').esWeb, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esAppGwy, 'Yes')]",
                         "constraints": {
                             "required": true,
                             "validationMessage": "The subnet network's address space, specified as one address prefixes in CIDR notation (e.g. 192.168.1.0/24)"
@@ -407,7 +407,7 @@
                         "type": "Microsoft.Common.OptionsGroup",
                         "label": "Deploy Public Subnet",
                         "defaultValue": "Yes",
-                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esSpokeIaaS, 'Yes')]",
                         "toolTip": "If 'Yes' is selected, a subnet for Public Servers will be deployed.",
                         "constraints": {
                             "allowedValues": [
@@ -428,7 +428,7 @@
                         "label": "CIDR range for the Public Subnet",
                         "toolTip": "Provide address prefix in CIDR notation (e.g 10.100.0.0/24)",
                         "defaultValue": "10.52.1.0/24",
-                        "visible": "[equals(steps('esLzConnectivity').esApp, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esPublic, 'Yes')]",
                         "constraints": {
                             "required": true,
                             "validationMessage": "The subnet network's address space, specified as one address prefixes in CIDR notation (e.g. 192.168.1.0/24)"
@@ -439,7 +439,7 @@
                         "type": "Microsoft.Common.OptionsGroup",
                         "label": "Deploy Private Subnet",
                         "defaultValue": "Yes",
-                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esSpokeIaaS, 'Yes')]",
                         "toolTip": "If 'Yes' is selected, a subnet for Data Servers will be deployed.",
                         "constraints": {
                             "allowedValues": [
@@ -460,7 +460,7 @@
                         "label": "CIDR range for the Private Subnet",
                         "toolTip": "Provide address prefix in CIDR notation (e.g 10.100.0.0/24)",
                         "defaultValue": "10.52.2.0/24",
-                        "visible": "[equals(steps('esLzConnectivity').esData, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esPrivate, 'Yes')]",
                         "constraints": {
                             "required": true,
                             "validationMessage": "The subnet network's address space, specified as one address prefixes in CIDR notation (e.g. 192.168.1.0/24)"
@@ -493,7 +493,7 @@
                         "label": "Virtual network CIDR Range",
                         "toolTip": "Provide address prefix in CIDR notation (e.g. 10.52.0.0/18)",
                         "defaultValue": "10.52.0.0/18",
-                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esSpokeAks, 'Yes')]",
                         "constraints": {
                             "required": true,
                             "validationMessage": "Virtual network's address space, specified as a CIDR notation (e.g. 10.52.0.0/18)"
@@ -504,7 +504,7 @@
                         "type": "Microsoft.Common.OptionsGroup",
                         "label": "Deploy AKS Subnet",
                         "defaultValue": "Yes",
-                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esSpokeAks, 'Yes')]",
                         "toolTip": "If 'Yes' is selected, a subnet for AKS will be deployed.",
                         "constraints": {
                             "allowedValues": [
@@ -525,7 +525,7 @@
                         "label": "CIDR range for the AKS Subnet",
                         "toolTip": "Provide address prefix in CIDR notation (e.g 10.100.0.0/24)",
                         "defaultValue": "10.52.0.0/24",
-                        "visible": "[equals(steps('esLzConnectivity').esWeb, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esAks, 'Yes')]",
                         "constraints": {
                             "required": true,
                             "validationMessage": "The subnet network's address space, specified as one address prefixes in CIDR notation (e.g. 192.168.1.0/24)"
@@ -558,7 +558,7 @@
                         "label": "Virtual network CIDR Range",
                         "toolTip": "Provide address prefix in CIDR notation (e.g. 10.52.0.0/18)",
                         "defaultValue": "10.52.0.0/18",
-                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esSpokePls, 'Yes')]",
                         "constraints": {
                             "required": true,
                             "validationMessage": "Virtual network's address space, specified as a CIDR notation (e.g. 10.52.0.0/18)"
@@ -569,7 +569,7 @@
                         "type": "Microsoft.Common.OptionsGroup",
                         "label": "Deploy AKS Subnet",
                         "defaultValue": "Yes",
-                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esSpokePls, 'Yes')]",
                         "toolTip": "If 'Yes' is selected, a subnet for PLS will be deployed.",
                         "constraints": {
                             "allowedValues": [
@@ -590,7 +590,7 @@
                         "label": "CIDR range for the AKS Subnet",
                         "toolTip": "Provide address prefix in CIDR notation (e.g 10.100.0.0/24)",
                         "defaultValue": "10.52.0.0/24",
-                        "visible": "[equals(steps('esLzConnectivity').esWeb, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esAddressPlsSubnet, 'Yes')]",
                         "constraints": {
                             "required": true,
                             "validationMessage": "The subnet network's address space, specified as one address prefixes in CIDR notation (e.g. 192.168.1.0/24)"
@@ -600,7 +600,7 @@
                     {
                         "name": "text1",
                         "type": "Microsoft.Common.TextBlock",
-                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "visible": true,
                         "options": {
                             "text": "Please provide details for the Platform Connectivity Hub virtual network"
                         }
@@ -608,7 +608,7 @@
                     {
                         "name": "esHubSubId",
                         "type": "Microsoft.Common.TextBox",
-                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "visible": true,
                         "label": "PLatform Connectivity INT Hub Subscription Id",
                         "toolTip": "Provide the Platform Connectivity INT Hub Subscription Id",
                         "defaultValue": "4dbf040a-1431-4a27-a586-99cd795a9b44",
@@ -619,7 +619,7 @@
                     {
                         "name": "esHubVnetName",
                         "type": "Microsoft.Common.TextBox",
-                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "visible": true,
                         "label": "INT Hub Virtual Network Name",
                         "toolTip": "Provide the name of the INT Hub virtual network",
                         "defaultValue": "vn-auea-pr-prd-platform-inthub-01",
@@ -630,7 +630,7 @@
                     {
                         "name": "esHubVnetRG",
                         "type": "Microsoft.Common.TextBox",
-                        "visible": "[equals(steps('esLzConnectivity').esSpoke, 'Yes')]",
+                        "visible": true,
                         "label": "INT Hub Virtual Network Resource Group ",
                         "toolTip": "Provide the Resource Group of the INT Hub virtual network",
                         "defaultValue": "rg-auea-pr-prd-inthub-01",
