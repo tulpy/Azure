@@ -590,7 +590,7 @@
                         "label": "CIDR range for the AKS Subnet",
                         "toolTip": "Provide address prefix in CIDR notation (e.g 10.100.0.0/24)",
                         "defaultValue": "10.52.0.0/24",
-                        "visible": "[equals(steps('esLzConnectivity').esAddressPlsSubnet, 'Yes')]",
+                        "visible": "[equals(steps('esLzConnectivity').esPls, 'Yes')]",
                         "constraints": {
                             "required": true,
                             "validationMessage": "The subnet network's address space, specified as one address prefixes in CIDR notation (e.g. 192.168.1.0/24)"
